@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Walk — Co-op Puzzle Adventure Guide (2026)</title>
+<meta name="description" content="Big Walk is a cooperative multiplayer puzzle adventure about walking and talking with friends, from House House. Play with 2–12 players on Steam, PS5, and Nintendo Switch 2.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* DESIGN.md — Ventriloc tokens */
+    --color-graphite: #202020;
+    --color-canvas-white: #ffffff;
+    --color-ash: #efefef;
+    --color-fog: #f5f5f5;
+    --color-ivory: #ebe6dd;
+    --color-steel: #4d4d4d;
+    --color-slate: #828282;
+    --color-mist: #e8e8e8;
+    --color-ember-orange: #ff682c;
+    --color-brass: #816729;
+
+    --font-polysans: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+    --radius-tags: 20px;
+    --radius-cards: 8px;
+    --radius-buttons: 0px;
+    --radius-nav-pills: 200px;
+    --radius-asymmetric-card: 6px 0px 0px;
+
+    --page-max-width: 1200px;
+    --section-gap: 80px;
+    --card-padding: 40px;
+    --element-gap: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--color-canvas-white);
+    color: var(--color-graphite);
+    font-family: var(--font-inter);
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .wrap { max-width: var(--page-max-width); margin: 0 auto; padding: 0 24px; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; }
+
+  /* ---------- Header ---------- */
+  header { position: sticky; top: 0; z-index: 20; background: var(--color-canvas-white); border-bottom: 1px solid var(--color-mist); }
+  .header-inner {
+    max-width: var(--page-max-width); margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .wordmark { display: flex; align-items: center; gap: 10px; }
+  .wordmark img { width: 34px; height: 34px; border-radius: 4px; }
+  .wordmark span { font-family: var(--font-polysans); font-weight: 400; font-size: 20px; letter-spacing: -0.02em; }
+  .wordmark .dot { color: var(--color-ember-orange); }
+  .pill-nav {
+    background: var(--color-ash); border-radius: var(--radius-nav-pills);
+    padding: 8px 18px; display: flex; gap: 20px; align-items: center;
+  }
+  .pill-nav a { font-family: var(--font-polysans); font-weight: 400; font-size: 15px; letter-spacing: -0.02em; color: var(--color-graphite); }
+  .pill-nav a:hover { color: var(--color-ember-orange); }
+  .header-right { display: flex; align-items: center; gap: 18px; }
+  .lang-toggle { display: flex; gap: 12px; }
+  .lang-btn { background: none; border: none; cursor: pointer; font-family: var(--font-polysans); font-weight: 400; font-size: 15px; letter-spacing: -0.02em; color: var(--color-slate); padding: 4px 2px; }
+  .lang-btn.active { color: var(--color-graphite); border-bottom: 1px solid var(--color-ember-orange); }
+  .btn {
+    display: inline-block; font-family: var(--font-polysans); font-weight: 400;
+    font-size: 15px; letter-spacing: -0.02em; line-height: 1;
+    padding: 11px 20px; border-radius: var(--radius-buttons); cursor: pointer;
+  }
+  .btn-primary { background: var(--color-graphite); color: #fff; border: 1px solid var(--color-graphite); }
+  .btn-primary:hover { background: #000; }
+  .btn-ghost { background: transparent; color: var(--color-graphite); border: 1px solid var(--color-graphite); }
+  .btn-ghost:hover { background: var(--color-fog); }
+
+  /* ---------- Hero ---------- */
+  .hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; padding: 70px 0 40px; }
+  .badge {
+    display: inline-block; font-family: var(--font-polysans); font-weight: 400;
+    font-size: 13px; letter-spacing: 0.02em; color: var(--color-brass);
+    border: 1px solid var(--color-mist); border-radius: var(--radius-tags);
+    padding: 4px 12px; margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: var(--font-polysans); font-weight: 400;
+    font-size: 66px; line-height: 0.91; letter-spacing: -1.32px;
+    color: var(--color-graphite); margin-bottom: 28px;
+  }
+  .hero .sub { font-size: 18px; line-height: 1.5; color: var(--color-steel); max-width: 480px; margin-bottom: 36px; }
+  .hero .cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-art {
+    background: var(--color-ash); border-radius: var(--radius-cards);
+    padding: 40px; display: flex; align-items: center; justify-content: center;
+  }
+  .hero-art img { width: 260px; height: 260px; object-fit: contain; }
+
+  /* ---------- Sections ---------- */
+  section { padding: var(--section-gap) 0; }
+  .band-ash { background: var(--color-ash); }
+  .sec-head { margin-bottom: 40px; }
+  .sec-head .kicker {
+    font-family: var(--font-polysans); font-weight: 400; font-size: 13px;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-ember-orange);
+    margin-bottom: 14px;
+  }
+  .sec-head h2 {
+    font-family: var(--font-polysans); font-weight: 400;
+    font-size: 40px; line-height: 1.05; letter-spacing: -0.8px; color: var(--color-graphite);
+  }
+  p.body { color: var(--color-steel); font-size: 16px; line-height: 1.6; margin-bottom: 16px; }
+  p.body strong { color: var(--color-graphite); font-weight: 600; }
+
+  /* Asymmetric featured card */
+  .feature-card {
+    background: var(--color-ash); border-radius: var(--radius-asymmetric-card);
+    padding: 70px 60px 60px; margin-bottom: 24px;
+  }
+  .feature-card.ivory { background: var(--color-ivory); }
+
+  /* Platform data cards */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--element-gap); }
+  .data-card {
+    background: var(--color-canvas-white); border-radius: 20px; padding: var(--card-padding);
+  }
+  .data-card .plat {
+    font-family: var(--font-polysans); font-weight: 400; font-size: 18px; letter-spacing: -0.02em;
+    color: var(--color-graphite); margin-bottom: 18px;
+  }
+  .data-card .stat { font-family: var(--font-polysans); font-weight: 400; font-size: 40px; line-height: 1; letter-spacing: -0.8px; color: var(--color-graphite); margin-bottom: 8px; }
+  .data-card .stat em { font-style: normal; color: var(--color-ember-orange); }
+  .data-card .note { font-size: 14px; color: var(--color-slate); line-height: 1.4; }
+  .data-card .note .brass { color: var(--color-brass); font-weight: 500; }
+
+  /* Guide numbered list */
+  .guide-list { list-style: none; counter-reset: step; }
+  .guide-list li { counter-increment: step; display: flex; gap: 20px; padding: 26px 0; border-bottom: 1px solid var(--color-mist); }
+  .guide-list li:last-child { border-bottom: none; }
+  .guide-list li::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--font-polysans); font-weight: 400; font-size: 15px;
+    letter-spacing: 0.04em; color: var(--color-brass);
+    flex: 0 0 40px; padding-top: 4px;
+  }
+  .guide-list .g-title { font-family: var(--font-polysans); font-weight: 400; font-size: 20px; letter-spacing: -0.02em; color: var(--color-graphite); margin-bottom: 6px; }
+  .guide-list p { color: var(--color-steel); font-size: 15px; line-height: 1.55; }
+
+  /* Codes block */
+  .codes-row { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .codes-value { font-family: var(--font-polysans); font-weight: 400; font-size: 48px; line-height: 1; letter-spacing: -0.8px; color: var(--color-ember-orange); }
+  .codes-hint { font-size: 15px; color: var(--color-steel); }
+
+  /* Links */
+  .link-list { list-style: none; }
+  .link-list li { padding: 18px 0; border-bottom: 1px solid var(--color-mist); display: flex; align-items: baseline; gap: 14px; }
+  .link-list li:last-child { border-bottom: none; }
+  .link-list .l-label { font-family: var(--font-polysans); font-weight: 400; font-size: 15px; letter-spacing: 0.04em; color: var(--color-slate); flex: 0 0 120px; text-transform: uppercase; }
+  .link-list a { font-size: 17px; color: var(--color-graphite); border-bottom: 1px solid var(--color-ember-orange); padding-bottom: 2px; }
+  .link-list a:hover { color: var(--color-ember-orange); }
+
+  /* Footer */
+  footer { padding: 60px 0 40px; border-top: 1px solid var(--color-mist); }
+  .footer-grid { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .footer-note { font-size: 14px; color: var(--color-slate); line-height: 1.5; }
+  .disclaimer {
+    margin-top: 28px; font-size: 13px; color: var(--color-slate); line-height: 1.6;
+    background: var(--color-fog); padding: 16px 18px; border-radius: var(--radius-cards);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 36px; padding-top: 48px; }
+    .hero h1 { font-size: 44px; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .pill-nav { display: none; }
+    .feature-card { padding: 44px 28px 36px; }
+    .sec-head h2 { font-size: 30px; }
+  }
+  @media (max-width: 560px) {
+    .header-right .btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 中文 ============ -->
+<main id="content-zh" hidden>
+  <header>
+    <div class="header-inner">
+      <div class="wordmark"><img src="logo.png" alt="Big Walk 图标"><span>Big<span class="dot">.</span>Walk</span></div>
+      <nav class="pill-nav">
+        <a href="#about">介绍</a>
+        <a href="#platforms">平台</a>
+        <a href="#guide">玩法</a>
+        <a href="#codes">兑换码</a>
+        <a href="#links">链接</a>
+      </nav>
+      <div class="header-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="zh" onclick="setLang('zh')">中文</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        </div>
+        <a class="btn btn-primary" href="https://bigwalk.game" target="_blank" rel="noopener">官网</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <span class="badge">合作解谜 · 2–12 人 · 2026-08-04 上线</span>
+        <h1>Big Walk</h1>
+        <p class="sub">一款关于和朋友「边走边聊」的游戏——它既是一场大冒险，也是一个可以闲逛的好地方。由《捣蛋鹅》开发商 House House 打造。</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://bigwalk.game" target="_blank" rel="noopener">访问官网 bigwalk.game</a>
+          <a class="btn btn-ghost" href="https://store.steampowered.com/app/1478500/Big_Walk/" target="_blank" rel="noopener">Steam 商店</a>
+        </div>
+      </div>
+      <div class="hero-art"><img src="logo.png" alt="Big Walk"></div>
+    </div>
+
+    <section id="about">
+      <div class="sec-head">
+        <div class="kicker">01 — 关于游戏</div>
+        <h2>Big Walk 是什么？</h2>
+      </div>
+      <div class="feature-card">
+        <p class="body">Big Walk 是一款合作在线多人解谜冒险游戏，主题是<strong>和朋友一起边走边聊</strong>。它由 House House——墨尔本的《捣蛋鹅》工作室——开发，Panic 发行，于 <strong>2026 年 8 月 4 日</strong>上线。</p>
+        <p class="body">在 2 到 12 人的小队里，你们一起穿越一座灵感来自澳大利亚内陆的广袤手工岛屿，共同解谜、揭开秘密。游戏里没有任务标记、体力条或血条——每一次发现都由你们自己完成。</p>
+        <p class="body">这个世界是<strong>手工打造</strong>的，每个角落都像有设计意图。岛上散布着无线电电台，每个电台播放专属歌曲，你可以把它带上旅途。没有大段的剧情说明——玩家们常会给角色起自己的昵称，甚至为谜题发明专属词汇。</p>
+        <p class="body">游戏有明确的结局，并非无限游玩的类型；但和不同的朋友一起，它依然充满吸引力。</p>
+      </div>
+    </section>
+  </div>
+
+  <section id="platforms" class="band-ash">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">02 — 平台与价格</div>
+        <h2>在哪些平台玩？</h2>
+      </div>
+      <div class="grid-3">
+        <div class="data-card">
+          <div class="plat">Steam</div>
+          <div class="stat">PC <em>/</em> Mac</div>
+          <div class="note">Windows 与 Mac（含 Mac App Store）<br>· 跨平台联机</div>
+        </div>
+        <div class="data-card">
+          <div class="plat">PlayStation 5</div>
+          <div class="stat">PS5</div>
+          <div class="note"><span class="brass">PlayStation Plus Essential</span> 首发入库 · 跨平台联机</div>
+        </div>
+        <div class="data-card">
+          <div class="plat">Switch 2</div>
+          <div class="stat">Nintendo <em>Switch 2</em></div>
+          <div class="note">跨平台联机 · 暂无其他平台计划</div>
+        </div>
+      </div>
+      <div class="feature-card" style="margin-top:24px; padding:44px 60px;">
+        <p class="body" style="margin-bottom:0;">首发价 <strong>$19.99 美元</strong>，限时首发 <span class="codes-value" style="font-size:22px;">75 折</span>。支持跨平台联机。</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section id="guide">
+      <div class="sec-head">
+        <div class="kicker">03 — 新手引导</div>
+        <h2>怎么玩？</h2>
+      </div>
+      <ol class="guide-list">
+        <li>
+          <div>
+            <div class="g-title">2 到 12 人，纯多人</div>
+            <p>没有单机模式。Big Walk 完全围绕合作与交流设计。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">房主选择世界版本</div>
+            <p>房主会选 2 人、3 人或 4+ 人版本的世界，这也代表<b>队伍的最低人数</b>；房主维护世界存档，队友可随时加入或离开。部分谜题会随人数调整。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">务必用近距离语音聊天</div>
+            <p>游戏的核心就是和朋友交谈。改用 Discord 或 Steam 语音会绕开解谜的设计，让游戏变差。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">手持道具</div>
+            <p>对讲机、手电筒、扩音器——有用，但通常不是必需。背包空间有限：想把纸质地图拿出来看，得让队友帮你卸下背包。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">没有任务标记</div>
+            <p>没有任务标记、体力条或血条——靠探索、尝试，和队友一起想办法。</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">理想人数</div>
+            <p>人少时游戏更专注协作；接近 12 人则是有趣的混乱。任何人数都好——开发者并没有设定所谓「最佳人数」。</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="codes">
+      <div class="feature-card ivory">
+        <div class="sec-head" style="margin-bottom:24px;">
+          <div class="kicker">04 — 兑换码</div>
+          <h2 style="font-size:32px;">兑换码</h2>
+        </div>
+        <div class="codes-row">
+          <span class="codes-value">暂无</span>
+          <span class="codes-hint">目前没有已知有效的 Big Walk 兑换码或促销码。</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="links">
+      <div class="sec-head">
+        <div class="kicker">05 — 官方链接</div>
+        <h2>相关链接</h2>
+      </div>
+      <ul class="link-list">
+        <li><span class="l-label">官网</span><a href="https://bigwalk.game" target="_blank" rel="noopener">bigwalk.game</a></li>
+        <li><span class="l-label">Steam</span><a href="https://store.steampowered.com/app/1478500/Big_Walk/" target="_blank" rel="noopener">store.steampowered.com/app/1478500</a></li>
+      </ul>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="wordmark" style="margin-bottom:14px;"><img src="logo.png" alt="Big Walk 图标"><span>Big<span class="dot">.</span>Walk</span></div>
+          <p class="footer-note">© 2026 Big Walk 攻略站 · 编辑式游戏信息站</p>
+        </div>
+        <p class="footer-note">由 House House 开发，Panic 发行 · 2026-08-04 上线</p>
+      </div>
+      <div class="disclaimer">本站为粉丝信息站，与 House House 或 Panic Inc. 无关，也未经其认可或赞助。「Big Walk」及相关名称是其各自所有者的商标。游戏详情（平台、价格、发行日期）可能变化，请以官方来源为准。</div>
+    </footer>
+  </div>
+</main>
+
+<!-- ============ English ============ -->
+<main id="content-en">
+  <header>
+    <div class="header-inner">
+      <div class="wordmark"><img src="logo.png" alt="Big Walk icon"><span>Big<span class="dot">.</span>Walk</span></div>
+      <nav class="pill-nav">
+        <a href="#about">About</a>
+        <a href="#platforms">Platforms</a>
+        <a href="#guide">Guide</a>
+        <a href="#codes">Codes</a>
+        <a href="#links">Links</a>
+      </nav>
+      <div class="header-right">
+        <div class="lang-toggle">
+          <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+          <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+        </div>
+        <a class="btn btn-primary" href="https://bigwalk.game" target="_blank" rel="noopener">Website</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <span class="badge">Co-op puzzle · 2–12 players · Out Aug 4, 2026</span>
+        <h1>Big Walk</h1>
+        <p class="sub">A videogame about talking to your friends — both a big adventure and a nice place to hang out. By House House, the studio behind Untitled Goose Game.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://bigwalk.game" target="_blank" rel="noopener">Visit bigwalk.game</a>
+          <a class="btn btn-ghost" href="https://store.steampowered.com/app/1478500/Big_Walk/" target="_blank" rel="noopener">Steam</a>
+        </div>
+      </div>
+      <div class="hero-art"><img src="logo.png" alt="Big Walk"></div>
+    </div>
+
+    <section id="about">
+      <div class="sec-head">
+        <div class="kicker">01 — About</div>
+        <h2>What is Big Walk?</h2>
+      </div>
+      <div class="feature-card">
+        <p class="body">Big Walk is a cooperative online multiplayer puzzle adventure about <strong>walking and talking with friends</strong>. It was developed by House House — the Melbourne studio behind <em>Untitled Goose Game</em> — and published by Panic. The game launched on <strong>August 4, 2026</strong>.</p>
+        <p class="body">In groups of 2 to 12 players, you trek across a vast, handcrafted island inspired by the Australian Outback, solving puzzles and uncovering mysteries together. There are no quest markers, stamina bars, or health meters — every discovery is your own.</p>
+        <p class="body">The world is <strong>handcrafted</strong> — every inch feels intentional. Radio stations dot the island, each playing its own song you can carry with you on the journey. There is no lore dump: groups often invent their own nicknames for characters and build their own vocabulary for the puzzles.</p>
+        <p class="body">Big Walk has a defined ending and isn't meant to be played forever — but with a different group of friends, it retains real appeal.</p>
+      </div>
+    </section>
+  </div>
+
+  <section id="platforms" class="band-ash">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">02 — Platforms &amp; Price</div>
+        <h2>Where to play</h2>
+      </div>
+      <div class="grid-3">
+        <div class="data-card">
+          <div class="plat">Steam</div>
+          <div class="stat">PC <em>/</em> Mac</div>
+          <div class="note">Windows &amp; Mac (incl. Mac App Store)<br>· Cross-play</div>
+        </div>
+        <div class="data-card">
+          <div class="plat">PlayStation 5</div>
+          <div class="stat">PS5</div>
+          <div class="note"><span class="brass">PlayStation Plus Essential</span> day-one title · Cross-play</div>
+        </div>
+        <div class="data-card">
+          <div class="plat">Switch 2</div>
+          <div class="stat">Nintendo <em>Switch 2</em></div>
+          <div class="note">Cross-play · No other platforms planned</div>
+        </div>
+      </div>
+      <div class="feature-card" style="margin-top:24px; padding:44px 60px;">
+        <p class="body" style="margin-bottom:0;">Launched at <strong>$19.99 USD</strong>, with a limited-time <span class="codes-value" style="font-size:22px;">25% launch discount</span>. Cross-platform play is supported.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <section id="guide">
+      <div class="sec-head">
+        <div class="kicker">03 — Beginner Guide</div>
+        <h2>How to play</h2>
+      </div>
+      <ol class="guide-list">
+        <li>
+          <div>
+            <div class="g-title">2 to 12 players, multiplayer only</div>
+            <p>There is no single-player mode. Big Walk is entirely designed around teamwork and talking.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">The host picks a world version</div>
+            <p>Hosts choose a 2-player, 3-player, or 4+ player version of the world — treat this as the <b>minimum number of players</b>. The host keeps the save data, so players can join or drop anytime. Some puzzles adapt to your group size.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">Use in-game proximity chat</div>
+            <p>The game is built around talking with your friends. Using Discord or Steam voice instead bypasses the puzzle design and makes the game worse.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">Handy items</div>
+            <p>Walkie-talkies, flashlights, and megaphones — useful, but rarely required. Inventory is limited: you'll need a friend to take your backpack off if you want to consult the paper map inside it.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">No quest markers</div>
+            <p>No quest markers, stamina bars, or health meters — explore, experiment, and figure things out together.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="g-title">Ideal group size</div>
+            <p>Fewer players makes it a more focused co-op experience; closer to 12 it becomes a fun, chaotic mess. Any size works — the developers didn't design for one ideal number.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="codes">
+      <div class="feature-card ivory">
+        <div class="sec-head" style="margin-bottom:24px;">
+          <div class="kicker">04 — Codes</div>
+          <h2 style="font-size:32px;">Redemption Codes</h2>
+        </div>
+        <div class="codes-row">
+          <span class="codes-value">暂无 (none)</span>
+          <span class="codes-hint">There are currently no known active redemption or promo codes for Big Walk.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="links">
+      <div class="sec-head">
+        <div class="kicker">05 — Official Links</div>
+        <h2>Related links</h2>
+      </div>
+      <ul class="link-list">
+        <li><span class="l-label">Website</span><a href="https://bigwalk.game" target="_blank" rel="noopener">bigwalk.game</a></li>
+        <li><span class="l-label">Steam</span><a href="https://store.steampowered.com/app/1478500/Big_Walk/" target="_blank" rel="noopener">store.steampowered.com/app/1478500</a></li>
+      </ul>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <div class="wordmark" style="margin-bottom:14px;"><img src="logo.png" alt="Big Walk icon"><span>Big<span class="dot">.</span>Walk</span></div>
+          <p class="footer-note">© 2026 Big Walk Guide · An editorial fan site</p>
+        </div>
+        <p class="footer-note">Developed by House House, published by Panic · Out Aug 4, 2026</p>
+      </div>
+      <div class="disclaimer">This is a fan-made information site, not affiliated with, endorsed by, or sponsored by House House or Panic Inc. "Big Walk" and related names are trademarks of their respective owners. Game details (platforms, price, release date) may change — always check official sources.</div>
+    </footer>
+  </div>
+</main>
+
+<script>
+  function setLang(lang) {
+    document.getElementById('content-zh').hidden = (lang !== 'zh');
+    document.getElementById('content-en').hidden = (lang !== 'en');
+    document.documentElement.lang = (lang === 'zh') ? 'zh-CN' : 'en';
+    document.querySelectorAll('.lang-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    try { localStorage.setItem('bigwalk-lang', lang); } catch (e) {}
+  }
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('bigwalk-lang'); } catch (e) {}
+    setLang(saved || 'en');
+  })();
+</script>
+</body>
+</html>
