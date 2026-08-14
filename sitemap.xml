@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 首页 -->
   <url>
     <loc>https://bigwalk.buzz/</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-  
-  <!-- 其他页面示例（按需修改或删除） -->
   <url>
     <loc>https://bigwalk.buzz/about.html</loc>
     <lastmod>2026-08-13</lastmod>
